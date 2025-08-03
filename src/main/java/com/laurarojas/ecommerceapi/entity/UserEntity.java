@@ -41,14 +41,15 @@ public class UserEntity {
     @Column(name = "last_name", length = 120)
     private String lastName;
 
+    @Column(name = "phone", length = 150, nullable = false, unique = true)
+    private String phone;
+
     @Column(name = "email", length = 150, nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role", length = 60, nullable = false)
-    private String role;
 
     @Column(name = "status", length = 8, nullable = false)
     private String status;
@@ -75,16 +76,7 @@ public class UserEntity {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
 
-    public UserEntity(String firstName, String lastName, String email, String password, String role) {
-        super();
-        setFirstName(firstName);
-        setLastName(lastName);
-        setEmail(email);
-        setPassword(password);
-        setRole(role);
-    }
 }
