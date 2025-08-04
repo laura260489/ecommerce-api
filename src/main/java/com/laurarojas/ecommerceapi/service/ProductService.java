@@ -5,6 +5,7 @@ import com.laurarojas.ecommerceapi.dtos.ProductDTO;
 import com.laurarojas.ecommerceapi.entity.CategoryEntity;
 import com.laurarojas.ecommerceapi.entity.ProductEntity;
 import com.laurarojas.ecommerceapi.enums.Status;
+import com.laurarojas.ecommerceapi.exceptions.ApiException;
 import com.laurarojas.ecommerceapi.repository.CategoryRepository;
 import com.laurarojas.ecommerceapi.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,10 +39,19 @@ public class ProductService {
     }
 
     public List<ProductDTO> getProductsByCategory(String categoryName) {
-        return productRepository.findByCategoriesNameAndStatus(categoryName, Status.ACTIVE)
+        List<ProductDTO> products = productRepository.findByCategoriesNameAndStatus(categoryName, Status.ACTIVE)
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+
+        if (products.isEmpty()) {
+            throw new ApiException(
+                    "No se encontraron productos para la categoría: " + categoryName,
+                    404,
+                    "Not Found"
+            );
+        }
+        return products;
     }
     public Optional<ProductDTO> getProductById(String id) {
         return productRepository.findById(id)

@@ -7,6 +7,7 @@ import com.laurarojas.ecommerceapi.entity.OrderItemEntity;
 import com.laurarojas.ecommerceapi.entity.ProductEntity;
 import com.laurarojas.ecommerceapi.entity.UserEntity;
 import com.laurarojas.ecommerceapi.enums.Status;
+import com.laurarojas.ecommerceapi.exceptions.ApiException;
 import com.laurarojas.ecommerceapi.repository.OrderRepository;
 import com.laurarojas.ecommerceapi.repository.ProductRepository;
 import com.laurarojas.ecommerceapi.repository.UserRepository;
@@ -50,10 +51,19 @@ public class OrderService {
             int quantity = entry.getValue();
 
             ProductEntity product = productRepository.findById(productId)
-                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + productId));
+                    .orElseThrow(() -> new ApiException(
+                            "Producto no encontrado con ID: " + productId,
+                            404,
+                            "Not Found"
+                    ));
 
             if (product.getStock() < quantity) {
-                throw new IllegalArgumentException("Stock insuficiente para producto: " + product.getTitle());
+                throw new ApiException(
+                        "Stock insuficiente para producto: " + product.getTitle(),
+                        404,
+                        "Illegal exception"
+                );
+
             }
 
             product.setStock(product.getStock() - quantity);
