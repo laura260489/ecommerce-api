@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CategoryDTO {
-    private UUID id;
+    private String id;
     private String name;
     private String description;
     private Status status;

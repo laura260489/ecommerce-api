@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findByEmail(String email);
 
     @EntityGraph(attributePaths = {"roles"})

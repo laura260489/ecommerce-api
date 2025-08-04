@@ -14,8 +14,8 @@ import java.util.UUID;
 
 @Repository
 @Transactional
-public interface ProductRepository extends JpaRepository<ProductEntity, UUID> {
+public interface ProductRepository extends JpaRepository<ProductEntity, String> {
     Page<ProductEntity> findByTitleContainingIgnoreCaseAndStatus(String title, Status status, Pageable pageable);
     List<ProductEntity> findByCategoriesNameAndStatus(String categoryName, Status status);
-    Optional<ProductEntity> findById(UUID id);
+    Optional<ProductEntity> findById(String id);
 }

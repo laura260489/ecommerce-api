@@ -28,7 +28,7 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, nullable = false, updatable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "title", length = 120, nullable = false)
     private String title;

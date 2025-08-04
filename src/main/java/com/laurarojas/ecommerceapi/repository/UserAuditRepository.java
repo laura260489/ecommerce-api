@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 @Transactional
-public interface UserAuditRepository extends JpaRepository<UserAuditEntity, UUID> {
+public interface UserAuditRepository extends JpaRepository<UserAuditEntity, String> {
 }
