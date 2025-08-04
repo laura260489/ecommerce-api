@@ -39,7 +39,7 @@ public class AuthService {
             throw new UnauthorizedException("Correo y/o contraseña incorrecta", HttpStatus.UNAUTHORIZED.value());
         }
         UserEntity userEntity = user.get();
-        String token = jwtProvider.generateToken(userEntity.getId(), userEntity.getEmail(), userEntity.getFirstName(),userEntity.getLastName(), userEntity.getRoles().stream().collect(Collectors.toList()));
+        String token = jwtProvider.generateToken(userEntity.getId().toString(), userEntity.getEmail(), userEntity.getFirstName(),userEntity.getLastName(), userEntity.getRoles().stream().collect(Collectors.toList()));
         return new ResponseTokenDTO(token);
     }
 

@@ -19,6 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -33,7 +34,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, nullable = false, updatable = false)
-    private String id;
+    private UUID id;
 
     @Column(name = "first_name", length = 120, nullable = false)
     private String firstName;
