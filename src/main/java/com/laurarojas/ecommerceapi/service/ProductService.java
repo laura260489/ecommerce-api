@@ -13,10 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +46,23 @@ public class ProductService {
     public Optional<ProductDTO> getProductById(String id) {
         return productRepository.findById(id)
                 .map(this::mapToDTO);
+    }
+
+    public List<ProductDTO> getActiveProducts() {
+        List<ProductEntity> categories = productRepository.findByStatus(Status.ACTIVE);
+        return categories.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getRandomProducts() {
+        List<ProductEntity> allActive = productRepository.findByStatus(Status.ACTIVE);
+        Collections.shuffle(allActive);
+
+        return allActive.stream()
+                .limit(5)
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     public ProductDTO createProduct(CreateProductRequest request) {
