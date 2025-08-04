@@ -1,12 +1,7 @@
 package com.laurarojas.ecommerceapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.laurarojas.ecommerceapi.enums.Status;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,25 +9,33 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="roles")
-public class RoleEntity {
+@Table(name="category",
+        indexes = {
+                @Index(name = "idx_category_name", columnList = "name")
+        }
+)
+public class CategoryEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "name", length = 60, nullable = false, unique = true)
+    @Column(name = "name", length = 120, nullable = false)
     private String name;
 
-    @Column(name = "status", length = 8, nullable = false)
-    private String status;
+    @Column(name = "description", length = 250)
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 10, nullable = false)
+    private Status status;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -42,14 +45,17 @@ public class RoleEntity {
     @Column(name = "updated_at")
     private Date updateAt;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users;
-
     @Override
     public String toString() {
-        return "RolesEntity{" +
+        return "CategoryEntity{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
                 '}';
     }
+
+
 }
