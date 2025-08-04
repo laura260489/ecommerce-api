@@ -5,6 +5,7 @@ import com.laurarojas.ecommerceapi.dtos.ProductDTO;
 import com.laurarojas.ecommerceapi.entity.CategoryEntity;
 import com.laurarojas.ecommerceapi.entity.ProductEntity;
 import com.laurarojas.ecommerceapi.enums.Status;
+import com.laurarojas.ecommerceapi.exceptions.ApiException;
 import com.laurarojas.ecommerceapi.repository.CategoryRepository;
 import com.laurarojas.ecommerceapi.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,10 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,14 +39,40 @@ public class ProductService {
     }
 
     public List<ProductDTO> getProductsByCategory(String categoryName) {
-        return productRepository.findByCategoriesNameAndStatus(categoryName, Status.ACTIVE)
+        List<ProductDTO> products = productRepository.findByCategoriesNameAndStatus(categoryName, Status.ACTIVE)
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+
+        if (products.isEmpty()) {
+            throw new ApiException(
+                    "No se encontraron productos para la categoría: " + categoryName,
+                    404,
+                    "Not Found"
+            );
+        }
+        return products;
     }
     public Optional<ProductDTO> getProductById(String id) {
         return productRepository.findById(id)
                 .map(this::mapToDTO);
+    }
+
+    public List<ProductDTO> getActiveProducts() {
+        List<ProductEntity> categories = productRepository.findByStatus(Status.ACTIVE);
+        return categories.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getRandomProducts() {
+        List<ProductEntity> allActive = productRepository.findByStatus(Status.ACTIVE);
+        Collections.shuffle(allActive);
+
+        return allActive.stream()
+                .limit(5)
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     public ProductDTO createProduct(CreateProductRequest request) {

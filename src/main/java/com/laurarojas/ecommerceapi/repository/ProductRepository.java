@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Transactional
@@ -18,4 +17,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, String> 
     Page<ProductEntity> findByTitleContainingIgnoreCaseAndStatus(String title, Status status, Pageable pageable);
     List<ProductEntity> findByCategoriesNameAndStatus(String categoryName, Status status);
     Optional<ProductEntity> findById(String id);
+    List<ProductEntity> findByStatus(Status status);
 }

@@ -4,6 +4,7 @@ import com.laurarojas.ecommerceapi.dtos.CategoryDTO;
 import com.laurarojas.ecommerceapi.dtos.CreateCategoryRequest;
 import com.laurarojas.ecommerceapi.entity.CategoryEntity;
 import com.laurarojas.ecommerceapi.enums.Status;
+import com.laurarojas.ecommerceapi.exceptions.ApiException;
 import com.laurarojas.ecommerceapi.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> getActiveCategories() {
-        List<CategoryEntity> categories = categoryRepository.findByStatus(Status.ACTIVE);
-        return categories.stream()
+        List<CategoryDTO> categories = categoryRepository.findByStatus(Status.ACTIVE)
+                .stream()
                 .map(category -> new CategoryDTO(
                         category.getId(),
                         category.getName(),
@@ -29,6 +30,15 @@ public class CategoryService {
                         category.getStatus()
                 ))
                 .collect(Collectors.toList());
+
+        if (categories.isEmpty()) {
+            throw new ApiException(
+                    "No existen categorías disponibles",
+                    404,
+                    "Not Found"
+            );
+        }
+        return categories;
     }
 
     public CategoryDTO createCategory(CreateCategoryRequest request) {
