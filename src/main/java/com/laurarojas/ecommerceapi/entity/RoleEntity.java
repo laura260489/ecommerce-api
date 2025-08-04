@@ -1,7 +1,10 @@
 package com.laurarojas.ecommerceapi.entity;
 
+import com.laurarojas.ecommerceapi.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +35,9 @@ public class RoleEntity {
     @Column(name = "name", length = 60, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "status", length = 8, nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 10, nullable = false)
+    private Status status;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

@@ -1,5 +1,6 @@
 package com.laurarojas.ecommerceapi.entity;
 
+import com.laurarojas.ecommerceapi.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,9 +43,12 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 10, nullable = false)
+    private Status status;
 
-    @Column(name = "status", length = 8, nullable = false)
-    private String status;
+    @Column(name = "frequent_user", nullable = false)
+    private boolean frequentUser;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

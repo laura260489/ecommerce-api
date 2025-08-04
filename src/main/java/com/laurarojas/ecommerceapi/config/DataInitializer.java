@@ -1,8 +1,8 @@
 package com.laurarojas.ecommerceapi.config;
 
 import com.laurarojas.ecommerceapi.entity.RoleEntity;
+import com.laurarojas.ecommerceapi.enums.Status;
 import com.laurarojas.ecommerceapi.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
                     .orElseGet(() -> {
                         RoleEntity role = new RoleEntity();
                         role.setName(roleName);
-                        role.setStatus("active");
+                        role.setStatus(Status.ACTIVE);
                         return roleRepository.save(role);
                     });
         }
