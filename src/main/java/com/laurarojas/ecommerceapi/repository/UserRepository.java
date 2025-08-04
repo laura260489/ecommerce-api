@@ -1,6 +1,5 @@
 package com.laurarojas.ecommerceapi.repository;
 
-import com.laurarojas.ecommerceapi.entity.RoleEntity;
 import com.laurarojas.ecommerceapi.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

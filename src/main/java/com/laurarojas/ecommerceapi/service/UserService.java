@@ -33,7 +33,7 @@ public class UserService {
         userEntity.setPhone(registerUserDTO.getPhone());
         userEntity.getRoles().add(getRoleByName("client"));
         userEntity.setStatus("active");
-        userRepository.save(new UserEntity());
+        userRepository.save(userEntity);
         return 200;
     }
 
