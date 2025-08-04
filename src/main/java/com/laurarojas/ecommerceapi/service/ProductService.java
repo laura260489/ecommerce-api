@@ -43,7 +43,7 @@ public class ProductService {
                 .map(this::mapToDTO)
                 .toList();
     }
-    public Optional<ProductDTO> getProductById(UUID id) {
+    public Optional<ProductDTO> getProductById(String id) {
         return productRepository.findById(id)
                 .map(this::mapToDTO);
     }

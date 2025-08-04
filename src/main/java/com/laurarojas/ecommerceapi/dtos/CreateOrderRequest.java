@@ -11,8 +11,8 @@ import java.util.UUID;
 @Data
 public class CreateOrderRequest {
     @NotNull
-    private UUID userId;
+    private String userId;
 
     @NotEmpty
-    private Map<UUID, @Min(1) Integer> products;
+    private Map<String, @Min(1) Integer> products;
 }

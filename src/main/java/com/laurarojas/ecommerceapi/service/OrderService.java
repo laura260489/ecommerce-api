@@ -46,7 +46,7 @@ public class OrderService {
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         for (var entry : request.getProducts().entrySet()) {
-            UUID productId = entry.getKey();
+            String productId = entry.getKey();
             int quantity = entry.getValue();
 
             ProductEntity product = productRepository.findById(productId)
@@ -78,9 +78,8 @@ public class OrderService {
 
         return mapToDTO(savedOrder);
     }
-
     private OrderDTO mapToDTO(OrderEntity order) {
-        Map<UUID, Integer> products = order.getOrderItems().stream()
+        Map<String, Integer> products = order.getOrderItems().stream()
                 .collect(
                         java.util.stream.Collectors.toMap(
                                 item -> item.getProduct().getId(),

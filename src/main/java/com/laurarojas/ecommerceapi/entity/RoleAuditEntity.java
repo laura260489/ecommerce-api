@@ -23,7 +23,7 @@ public class RoleAuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", length = 36, nullable = false, updatable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "user", length = 150, updatable = false)
     private String user;

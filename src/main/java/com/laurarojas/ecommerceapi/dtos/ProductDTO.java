@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProductDTO {
-    private UUID id;
+    private String id;
     private String title;
     private String description;
     private BigDecimal price;

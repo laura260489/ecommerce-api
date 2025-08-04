@@ -14,11 +14,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OrderDTO {
-    private UUID orderId;
-    private UUID userId;
+    private String orderId;
+    private String userId;
     private BigDecimal totalAmount;
     private String status;
     private Date createdAt;
     private Date updatedAt;
-    private Map<UUID, Integer> products;
+    private Map<String, Integer> products;
 }
