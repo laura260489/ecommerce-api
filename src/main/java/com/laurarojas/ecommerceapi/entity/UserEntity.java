@@ -33,7 +33,7 @@ public class UserEntity {
     @Column(name = "last_name", length = 120)
     private String lastName;
 
-    @Column(name = "phone", length = 150, nullable = false, unique = true)
+    @Column(name = "phone", length = 150, nullable = false)
     private String phone;
 
     @Column(name = "email", length = 150, nullable = false, unique = true)

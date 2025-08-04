@@ -2,6 +2,7 @@ package com.laurarojas.ecommerceapi.service;
 
 import com.laurarojas.ecommerceapi.dtos.LoginDTO;
 import com.laurarojas.ecommerceapi.dtos.ResponseTokenDTO;
+import com.laurarojas.ecommerceapi.entity.RoleEntity;
 import com.laurarojas.ecommerceapi.entity.UserEntity;
 import com.laurarojas.ecommerceapi.exceptions.UnauthorizedException;
 import com.laurarojas.ecommerceapi.repository.UserRepository;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +32,7 @@ public class AuthService {
     }
 
     public ResponseTokenDTO validateLogin(LoginDTO loginDTO) throws UnauthorizedException {
-        Optional<UserEntity> user = userRepository.findByEmail(loginDTO.getEmail());
+        Optional<UserEntity> user = userRepository.findUserWithRolesByEmail(loginDTO.getEmail());
 
         if(!user.isPresent()) {
             throw new UnauthorizedException("Usuario no registrado", HttpStatus.UNAUTHORIZED.value());
@@ -39,7 +42,10 @@ public class AuthService {
             throw new UnauthorizedException("Correo y/o contraseña incorrecta", HttpStatus.UNAUTHORIZED.value());
         }
         UserEntity userEntity = user.get();
-        String token = jwtProvider.generateToken(userEntity.getId().toString(), userEntity.getEmail(), userEntity.getFirstName(),userEntity.getLastName(), userEntity.getRoles().stream().collect(Collectors.toList()));
+        List<String> roleNames = userEntity.getRoles().stream()
+                .map(RoleEntity::getName).collect(Collectors.toList());
+        String token = jwtProvider.generateToken(userEntity.getId().toString(), userEntity.getEmail(),
+                userEntity.getFirstName(),userEntity.getLastName(), roleNames);
         return new ResponseTokenDTO(token);
     }
 

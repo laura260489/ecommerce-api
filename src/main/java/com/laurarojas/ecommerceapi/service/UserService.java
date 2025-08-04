@@ -7,20 +7,24 @@ import com.laurarojas.ecommerceapi.exceptions.UserEmailExistException;
 import com.laurarojas.ecommerceapi.repository.RoleRepository;
 import com.laurarojas.ecommerceapi.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
-                       RoleRepository roleRepository) {
+                       RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public int registerUser(RegisterUserDTO registerUserDTO) {
+    public void registerUser(RegisterUserDTO registerUserDTO) {
         if (userRepository.findByEmail(registerUserDTO.getEmail()).isPresent()) {
             throw new UserEmailExistException(String.format("El email %s ya se está registrado", registerUserDTO.getEmail(), registerUserDTO.getEmail()), HttpStatus.UNPROCESSABLE_ENTITY.value());
         };
@@ -29,12 +33,11 @@ public class UserService {
         userEntity.setFirstName(registerUserDTO.getFirstName());
         userEntity.setLastName(registerUserDTO.getLastName());
         userEntity.setEmail(registerUserDTO.getEmail());
-        userEntity.setPassword(registerUserDTO.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
         userEntity.setPhone(registerUserDTO.getPhone());
         userEntity.getRoles().add(getRoleByName("client"));
         userEntity.setStatus("active");
         userRepository.save(userEntity);
-        return 200;
     }
 
     public RoleEntity getRoleByName(String name) {

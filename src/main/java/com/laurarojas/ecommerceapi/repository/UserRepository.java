@@ -2,6 +2,7 @@ package com.laurarojas.ecommerceapi.repository;
 
 import com.laurarojas.ecommerceapi.entity.UserEntity;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,7 @@ import java.util.UUID;
 @Transactional
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByEmail(String email);
+
+    @EntityGraph(attributePaths = {"roles"})
+    Optional<UserEntity> findUserWithRolesByEmail(String email);
 }
