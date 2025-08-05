@@ -1,8 +1,7 @@
 package com.laurarojas.ecommerceapi.controller;
 
 import com.laurarojas.ecommerceapi.dtos.RegisterUserDTO;
-import com.laurarojas.ecommerceapi.dtos.ResponseTokenDTO;
-import com.laurarojas.ecommerceapi.entity.UserEntity;
+import com.laurarojas.ecommerceapi.dtos.ResponseMessageDTO;
 import com.laurarojas.ecommerceapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterUserDTO registerUserDTO) {
-        userService.registerUser(registerUserDTO);
-        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+        ResponseMessageDTO response = userService.registerUser(registerUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(response);
     }
 }

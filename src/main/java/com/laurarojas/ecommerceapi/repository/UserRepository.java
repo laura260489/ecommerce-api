@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Transactional
@@ -20,4 +19,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findUserWithRolesByEmail(String email);
 
     List<UserEntity> findByStatus(Status status);
+
+    Optional<UserEntity> findByIdAndStatus(String id, Status status);
 }

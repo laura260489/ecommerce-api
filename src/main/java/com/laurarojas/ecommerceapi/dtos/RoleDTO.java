@@ -12,8 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ResponseTokenDTO {
-    private String token;
-    private int statusCode;
-    private String message;
+public class RoleDTO {
+    private String id;
+    private String name;
 }
