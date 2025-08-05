@@ -11,6 +11,7 @@ import com.laurarojas.ecommerceapi.repository.DiscountRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,13 +44,12 @@ public class DiscountService {
         );
     }
 
-    public Optional<DiscountDTO> getActiveDiscountNow() {
-        Optional<DiscountEntity> activeDiscounts = discountRepository.findByStatus(Status.ACTIVE);
+    public List<DiscountDTO> getActiveDiscountNow() {
+        List<DiscountEntity> activeDiscounts = discountRepository.findByStatus(Status.ACTIVE);
         LocalDateTime now = LocalDateTime.now();
 
         return activeDiscounts.stream()
                 .filter(d -> !now.isBefore(d.getStartDate()) && !now.isAfter(d.getEndDate()))
-                .findFirst()
                 .map(d -> new DiscountDTO(
                         d.getId(),
                         d.getPercentage(),
@@ -57,7 +57,9 @@ public class DiscountService {
                         d.getStartDate(),
                         d.getEndDate(),
                         d.getStatus()
-                ));
+                ))
+                .collect(Collectors.toList());
     }
+
 
 }
