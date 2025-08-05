@@ -2,6 +2,7 @@ package com.laurarojas.ecommerceapi.service;
 
 import com.laurarojas.ecommerceapi.dtos.CreateProductRequest;
 import com.laurarojas.ecommerceapi.dtos.ProductDTO;
+import com.laurarojas.ecommerceapi.dtos.ProductRandom;
 import com.laurarojas.ecommerceapi.entity.CategoryEntity;
 import com.laurarojas.ecommerceapi.entity.ProductEntity;
 import com.laurarojas.ecommerceapi.enums.Status;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,13 +67,18 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductDTO> getRandomProducts() {
+    public List<ProductRandom> getRandomProducts() {
         List<ProductEntity> allActive = productRepository.findByStatus(Status.ACTIVE);
         Collections.shuffle(allActive);
+        Random random = new Random();
 
         return allActive.stream()
                 .limit(5)
-                .map(this::mapToDTO)
+                .map(product -> {
+                    ProductDTO dto = mapToDTO(product);
+                    int quantity = random.nextInt(3) + 1; // cantidad aleatoria 1 a 10
+                    return new ProductRandom(dto, quantity);
+                })
                 .collect(Collectors.toList());
     }
 

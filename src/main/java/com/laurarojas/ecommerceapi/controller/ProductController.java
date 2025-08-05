@@ -2,11 +2,13 @@ package com.laurarojas.ecommerceapi.controller;
 
 import com.laurarojas.ecommerceapi.dtos.CreateProductRequest;
 import com.laurarojas.ecommerceapi.dtos.ProductDTO;
+import com.laurarojas.ecommerceapi.dtos.ProductRandom;
 import com.laurarojas.ecommerceapi.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api")
 public class ProductController {
@@ -50,9 +53,16 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(path = "product-active", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProductDTO>> getProductActive() {
+        List<ProductDTO> list = productService.getActiveProducts();
+        return ResponseEntity.ok(list);
+    }
+
+
     @GetMapping(path = "product-random", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProductDTO>> getProductRandom() {
-        List<ProductDTO> list = productService.getRandomProducts();
+    public ResponseEntity<List<ProductRandom>> getProductRandom() {
+        List<ProductRandom> list = productService.getRandomProducts();
         return ResponseEntity.ok(list);
     }
 }
