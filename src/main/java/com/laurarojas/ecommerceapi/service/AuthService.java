@@ -45,7 +45,7 @@ public class AuthService {
                 .map(RoleEntity::getName).collect(Collectors.toList());
         String token = jwtProvider.generateToken(userEntity.getId(), userEntity.getEmail(),
                 userEntity.getFirstName(),userEntity.getLastName(), roleNames, userEntity.isFrequentUser());
-        return new ResponseTokenDTO(token);
+        return new ResponseTokenDTO(token, HttpStatus.OK.value(), "Inicio de sesión válido");
     }
 
 }

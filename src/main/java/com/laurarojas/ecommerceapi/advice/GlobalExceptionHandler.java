@@ -1,9 +1,8 @@
-package com.laurarojas.ecommerceapi.Advice;
+package com.laurarojas.ecommerceapi.advice;
 
 import com.laurarojas.ecommerceapi.exceptions.ApiException;
 import com.laurarojas.ecommerceapi.exceptions.UnauthorizedException;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

@@ -44,7 +44,7 @@ public class ProductService {
         List<ProductDTO> products = productRepository.findByCategoriesNameAndStatus(categoryName, Status.ACTIVE)
                 .stream()
                 .map(this::mapToDTO)
-                .toList();
+                .collect(Collectors.toList());
 
         if (products.isEmpty()) {
             throw new ApiException(

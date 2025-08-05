@@ -7,13 +7,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ResponseTokenDTO {
-    private String token;
-    private int statusCode;
-    private String message;
+public class UserDTO {
+    private String id;
+    private String fullName;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private List<String> roles;
 }
