@@ -85,8 +85,8 @@ public class UserService {
         UserEntity userEntity = findUser(id);
 
         Set<RoleEntity> roles = userUpdateDTO.getRoles().stream()
-                .map(idRole -> roleRepository.findById(idRole).orElseThrow(() ->
-                        new ApiException("Role not found: " + idRole, HttpStatus.NOT_FOUND.value(),
+                .map(roleName -> roleRepository.findByName(roleName).orElseThrow(() ->
+                        new ApiException("Role not found: " + roleName, HttpStatus.NOT_FOUND.value(),
                                 HttpStatus.NOT_FOUND.getReasonPhrase())))
                 .collect(Collectors.toSet());
 
