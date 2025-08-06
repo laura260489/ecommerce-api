@@ -1,0 +1,2 @@
+INSERT INTO discounts (id, created_at, description, end_date, percentage, start_date, status, updated_at) VALUES 
+(UUID(), NOW(), 'Descuento por pedido aleatorio', '2025-08-15 23:59:59', 50.0, '2025-08-01 00:00:00', 'ACTIVE', NOW()), (UUID(), NOW(), 'Descuento de verano', '2025-08-15 23:59:59', 10.0, '2025-08-01 00:00:00', 'ACTIVE', NOW()), (UUID(), NOW(), 'Descuento por cliente frecuente', '2025-08-15 23:59:59', 5.0, '2025-08-01 00:00:00', 'ACTIVE', NOW());

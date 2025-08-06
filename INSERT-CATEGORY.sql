@@ -1,0 +1,1 @@
+INSERT INTO category (id, created_at, description, name, status, updated_at) VALUES (UUID(), NOW(), 'Todo lo relacionado con hogar.', 'Hogar', 'ACTIVE', NOW()), (UUID(), NOW(), 'Todo lo relacionado con tecnología.', 'Tecnologia', 'ACTIVE', NOW());
