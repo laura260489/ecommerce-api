@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,12 +82,12 @@ public class UserService {
         return new ResponseMessageDTO(String.format("Usuario %s eliminado", userEntity.getEmail()) , HttpStatus.OK.value());
     }
 
-    public ResponseMessageDTO updateUserById(String id, UserUpdateDTO userUpdateDTO) {
+    public UserUpdateDTO updateUserById(String id, UserUpdateDTO userUpdateDTO) {
         UserEntity userEntity = findUser(id);
 
         Set<RoleEntity> roles = userUpdateDTO.getRoles().stream()
-                .map(idRole -> roleRepository.findById(idRole).orElseThrow(() ->
-                        new ApiException("Role not found: " + idRole, HttpStatus.NOT_FOUND.value(),
+                .map(roleName -> roleRepository.findByName(roleName).orElseThrow(() ->
+                        new ApiException("Role not found: " + roleName, HttpStatus.NOT_FOUND.value(),
                                 HttpStatus.NOT_FOUND.getReasonPhrase())))
                 .collect(Collectors.toSet());
 
@@ -96,7 +97,8 @@ public class UserService {
         userEntity.setPhone(userUpdateDTO.getPhone());
         userEntity.setRoles(roles);
         userRepository.save(userEntity);
-        return new ResponseMessageDTO(String.format("Usuario %s actualizado", userEntity.getEmail()) , HttpStatus.OK.value());
+
+        return convertUserEntityToDTO(userEntity);
     }
 
     public UserDTO getUser(String id) {
@@ -128,5 +130,25 @@ public class UserService {
                     HttpStatus.NOT_FOUND.getReasonPhrase());
         }
         return optionalUserEntity.get();
+    }
+
+    public UserUpdateDTO convertUserEntityToDTO(UserEntity userEntity) {
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setId(userEntity.getId());
+        userUpdateDTO.setFirstName(userEntity.getFirstName());
+        userUpdateDTO.setLastName(userEntity.getLastName());
+        userUpdateDTO.setEmail(userEntity.getEmail());
+        userUpdateDTO.setPhone(userEntity.getPhone());
+        userUpdateDTO.setFrecuent(userEntity.isFrequentUser());
+
+        List<String> roles = new ArrayList<>();
+        for (RoleEntity role : userEntity.getRoles()) {
+            roles.add(role.getName());
+        }
+        userUpdateDTO.setRoles(roles);
+        userUpdateDTO.setMessage(String.format("Usuario %s actualizado", userEntity.getEmail()));
+        userUpdateDTO.setStatusCode(HttpStatus.OK.value());
+
+        return userUpdateDTO;
     }
 }
